@@ -3,7 +3,7 @@ import React from 'react';
 class BookShelf extends React.Component {
 
     render() {
-        console.log(this.props.value)
+        console.log(this.props);
         return (
             <React.Fragment>
                 <li>
@@ -11,7 +11,7 @@ class BookShelf extends React.Component {
                         <div className="book-top">
                             <div className="book-cover" style={{ width: 128, height: 193, backgroundImage: `${this.props.image}`}}></div>
                             <div className="book-shelf-changer">
-                                <select value={this.props.values} >
+                                <select value={this.props.values}>
                                     <option value="move" disabled>Move to...</option>
                                     <option value="currentlyReading">Currently Reading</option>
                                     <option value="wantToRead">Want to Read</option>
