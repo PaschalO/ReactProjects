@@ -2,16 +2,16 @@ import React from 'react';
 
 class BookShelf extends React.Component {
 
+
     render() {
-        console.log(this.props);
         return (
             <React.Fragment>
                 <li>
                     <div className="book">
                         <div className="book-top">
-                            <div className="book-cover" style={{ width: 128, height: 193, backgroundImage: `${this.props.image}`}}></div>
+                            <div className="book-cover" style={{ width: 128, height: 193, backgroundImage: `url(${this.props.image})`}}></div>
                             <div className="book-shelf-changer">
-                                <select value={this.props.values}>
+                                <select value={this.props.values} name={this.props.name} onChange={this.props.change}>
                                     <option value="move" disabled>Move to...</option>
                                     <option value="currentlyReading">Currently Reading</option>
                                     <option value="wantToRead">Want to Read</option>
