@@ -4,20 +4,6 @@ import * as BooksAPI from "../BooksAPI";
 
 class BookList extends React.Component {
 
-    state = {
-        shelf : ''
-    }
-
-    handleChange = (e) => {
-        this.setState({shelf: e.target.value}, ()=>{
-            console.log(this.state.shelf)
-        })
-
-    }
-
-
-
-
     render() {
 
         return (
@@ -34,9 +20,8 @@ class BookList extends React.Component {
                                         bookAuthor={details.authors}
                                         image={details.imageLinks.thumbnail}
                                         values={details.shelf}
-                                        change={this.handleChange}
                                         name={this.props.name && this.props.name === 'currentlyReading'}
-                                        updateChange={(e) => this.props.updateShelfHandler(details, this.state.shelf)}
+                                        updateChange={(e) => this.props.updateShelfHandler(details, e.target.value)}
                                     />
                                 ))}
                             </ol>
@@ -53,8 +38,7 @@ class BookList extends React.Component {
                                         bookAuthor={details.authors}
                                         image={details.imageLinks.thumbnail}
                                         values={details.shelf}
-                                        change={this.handleChange}
-                                        updateChange={(e) => this.props.updateShelfHandler(details, this.state.shelf)}
+                                        updateChange={(e) => this.props.updateShelfHandler(details, e.target.value)}
                                         name={this.props.name && this.props.name === 'wantToRead'}
                                     />
                                 ))}
@@ -71,9 +55,8 @@ class BookList extends React.Component {
                                         bookTitle={details.title}
                                         bookAuthor={details.authors}
                                         image={details.imageLinks.thumbnail}
-                                        values={details.shelf}
-                                        change={this.handleChange}
-                                        updateChange={(e) => this.props.updateShelfHandler(details, this.state.shelf)}
+                                        values={details.shelf || 'none'}
+                                        updateChange={(e) => this.props.updateShelfHandler(details, e.target.value)}
                                         name={this.props.name && this.props.name === 'read'}
                                     />
                                 ))}
