@@ -4,8 +4,6 @@ import BookList from "./Component/bookList";
 import Search from "./Component/search";
 import * as BooksAPI from "./BooksAPI";
 import  { Route, Link } from 'react-router-dom';
-import BookShelf from "./Component/bookShelf";
-
 
 const selectNames = [
   {id: 1, name: 'currentlyReading'},
@@ -22,9 +20,6 @@ class BooksApp extends React.Component {
      * users can use the browser's back and forward buttons to navigate between
      * pages, as well as provide a good URL they can bookmark and share.
      */
-
-
-    showSearchPage: false,
     books: [],
   }
 
@@ -37,28 +32,13 @@ class BooksApp extends React.Component {
   }
 
   updateShelfHandler = (book, shelf) => {
-      //deleting the book
-      /*
-      *  below will remove the old book from the state.
-      * */
-
-
-      // adding the book
-      /*
-      const booksWithoutOutdatedBook = books.filter(({ id })  => id !== book.id);
-      const updatedBook = {...book, shelf:shelf};
-      this.setState(({books}) => ({
-          books: [...booksWithoutOutdatedBook, updatedBook]
-      }));
-
-       */
-
       this.setState(({ books }) => ({
           books: [
                   ...books.filter(({ id }) => id !== book.id),
-                  { ...book, shelf }
+                  { ...book, shelf: shelf }
               ],
       }));
+      BooksAPI.update(book, shelf);
   }
 
   render() {
@@ -86,11 +66,9 @@ class BooksApp extends React.Component {
                   />
                 </>
             )} />
-
             <div className="open-search">
               <Link to='search'><button>Add a book</button></Link>
             </div>
-
           </div>
       </div>
     )
