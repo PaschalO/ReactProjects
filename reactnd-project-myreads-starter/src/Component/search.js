@@ -23,32 +23,31 @@ class Search extends React.Component {
         if (this.state.query.length > 0) {
             BooksAPI.search(query.trim())
                 .then((response) => {
+                    // if the response from the server is an array
                     if (Array.isArray(response)) {
-                        this.setState({
-                            searchedBooks: response
-                        })
+                        const searchedBooks = response.map(searchedBooks => {
+                            const shelfBooks = this.props.books.find(shelfBook => shelfBook.id === searchedBooks.id);
+                            const shelf =  shelfBooks.shelf ? shelfBooks.shelf : "none";
+                            this.props.updateShelfHandler(shelfBooks, shelf);
+                        });
+
+                        this.setState(() => ({ searchBooks: [...searchedBooks] }));
+
                     }
-
+                    // if the server returns an object
+                    else {
+                        this.setState({searchedBooks: []})
+                    }
                 })
-
-            const filteredResults = this.state.searchedBooks.map(result => {
-                const book = this.props.books.find(book => book.id === result.id);
-                this.setState(previousState => ({
-                        searchedBooks: [
-                            ...previousState.searchedBooks,
-                            book
-                        ]
-                    })
-                )
-            });
-
         }
 
+        // no input/query was typed or it was cleared
         else {
             this.setState({searchedBooks: []})
         }
 
     }
+
 
     render() {
         const books = this.state.searchedBooks.map(book => {
@@ -59,7 +58,7 @@ class Search extends React.Component {
                     bookTitle={book.title}
                     bookAuthor={book.authors.join(", ")}
                     image={imageUrl}
-                    values={book.shelf || 'none'}
+                    values={book.shelf}
                     name={this.props.name}
                     updateChange={(e) => this.props.updateShelfHandler(book, e.target.value)}
                 />
