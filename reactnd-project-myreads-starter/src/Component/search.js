@@ -27,14 +27,18 @@ class Search extends React.Component {
                     if (Array.isArray(response)) {
                         const searchedBooks = response.map(searchedBooks => {
                             const shelfBooks = this.props.books.find(shelfBook => shelfBook.id === searchedBooks.id);
-                            const shelf =  shelfBooks.shelf ? shelfBooks.shelf : "none";
-                            this.props.updateShelfHandler(shelfBooks, shelf);
+                            const shelf =  shelfBooks ? shelfBooks.shelf : "none";
+
+                            return {
+                                ...searchedBooks,
+                                shelf
+                            }
                         });
 
-                        this.setState(() => ({ searchBooks: [...searchedBooks] }));
+                        this.setState(() => ({ searchedBooks: searchedBooks}));
 
                     }
-                    // if the server returns an object
+
                     else {
                         this.setState({searchedBooks: []})
                     }
@@ -56,7 +60,7 @@ class Search extends React.Component {
                 <BookShelf
                     key={book.id}
                     bookTitle={book.title}
-                    bookAuthor={book.authors.join(", ")}
+                    bookAuthor={book.authors && book.authors.join(", ")}
                     image={imageUrl}
                     values={book.shelf}
                     name={this.props.name}
